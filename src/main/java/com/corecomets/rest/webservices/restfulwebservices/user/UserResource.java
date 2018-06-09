@@ -3,6 +3,8 @@ package com.corecomets.rest.webservices.restfulwebservices.user;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,17 +38,24 @@ public class UserResource {
 
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable int id) {
-		User user = service.deleteById(id);
+		User deletedUser = service.deleteById(id);
 		
-		if(user==null)
-			throw new UserNotFoundException("id-"+ id);		
+		//If we need to send back some response use the below commented code
+//		URI location  = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(deletedUser.getId()).toUri();
+//		System.out.println("printing the location : " +location );
+//		return (ResponseEntity<Object>) ResponseEntity.noContent();
+		
+		//If we want to just send a status response then use below code
+		if(deletedUser == null) {
+			throw new UserNotFoundException("id- " +id);
+		}
 	}
 
 	//
 	// input - details of user
 	// output - CREATED & Return the created URI
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@RequestBody User user) {
+	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
 		User savedUser = service.save(user);
 		// CREATED
 		// /user/{id}     savedUser.getId()
