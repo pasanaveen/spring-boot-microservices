@@ -36,6 +36,9 @@ public class UserResource {
 		return user;
 	}
 
+	//Delete a user
+	// input - send id of the user to be deleted
+	//output -  sends a http status message with some explanation from the customized response entity exception handler
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable int id) {
 		User deletedUser = service.deleteById(id);
