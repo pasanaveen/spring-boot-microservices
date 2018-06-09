@@ -28,16 +28,28 @@ public class HelloWorldController {
 		return new HelloWorldBean("Hello World");
 	}
 	
-	///hello-world/path-variable/in28minutes
-	@GetMapping(path = "/hello-world/path-variable/{name}")
-	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
-		return new HelloWorldBean(String.format("Hello World, %s", name));
-	}
-
+//	///hello-world/path-variable/corecomets
+//	@GetMapping(path = "/hello-world/path-variable/{name}")
+//	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
+//		return new HelloWorldBean(String.format("Hello World, %s", name));
+//	}
+//
+//	@GetMapping(path = "/hello-world-internationalized")
+//	public String helloWorldInternationalized() {
+//		return messageSource.getMessage("good.morning.message", null, 
+//									LocaleContextHolder.getLocale());
+//	}
+	
+	//Staic way of getting the locale from the request header. Very difficult if we have to do this for many scenarios.  Hence use LocaleContextHolder
+//	@GetMapping(path = "/hello-world-internationalized")
+//	public String helloWorldInternationalized(@RequestHeader(name = "Accept-Language", required = false)Locale locale) {
+//		return messageSource.getMessage("good.morning.message", null, locale);
+//	}
+	
+	//Dynamically get the locale from the headers
 	@GetMapping(path = "/hello-world-internationalized")
 	public String helloWorldInternationalized() {
-		return messageSource.getMessage("good.morning.message", null, 
-									LocaleContextHolder.getLocale());
+		return messageSource.getMessage("good.morning.message", null, LocaleContextHolder.getLocale());
 	}
 
 }
